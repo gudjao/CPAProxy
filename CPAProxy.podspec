@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
 
   s.homepage        = "https://github.com/ursachec/CPAProxy"
   s.license         = { :type => 'MIT', :file => 'LICENSE.md' }
-  s.source          = { :git => "https://github.com/chrisballinger/CPAProxy.git", :branch => "podspec"}
+  s.source          = { :git => "https://github.com/gudjao/CPAProxy.git", :branch => "custom"}
   s.prepare_command = <<-CMD
     bash ./scripts/build-all.sh
   CMD
