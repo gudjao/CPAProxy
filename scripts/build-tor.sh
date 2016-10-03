@@ -15,13 +15,14 @@ pushd "tor-${TOR_VERSION}"
 	# Apply patches
 	patch -p3 < "${TOPDIR}/patches/tor-nsenviron.diff"
 	patch -p3 < "${TOPDIR}/patches/tor-ptrace.diff"
+	patch -p3 < "${TOPDIR}/patches/tor-configure.diff" configure
 
 	LDFLAGS="-L${ARCH_BUILT_DIR} -fPIE -miphoneos-version-min=${MIN_IOS_VERSION}"
 	CFLAGS="-arch ${ARCH} -fPIE -isysroot ${SDK_PATH} -I${ARCH_BUILT_HEADERS_DIR} -miphoneos-version-min=${MIN_IOS_VERSION}"
 	CPPFLAGS="-arch ${ARCH} -fPIE -isysroot ${SDK_PATH} -I${ARCH_BUILT_HEADERS_DIR} -miphoneos-version-min=${MIN_IOS_VERSION}"
 
 	if [ "${ARCH}" == "i386" ] || [ "${ARCH}" == "x86_64" ]; then
-        EXTRA_CONFIG=""
+		EXTRA_CONFIG="--host=${ARCH}-apple-darwin"
     else
         EXTRA_CONFIG="--host=arm-apple-darwin"
     fi
@@ -47,7 +48,7 @@ pushd "tor-${TOR_VERSION}"
 	cp "src/trunnel/libor-trunnel.a" "${ARCH_BUILT_DIR}"
 	cp "src/ext/ed25519/donna/libed25519_donna.a" "${ARCH_BUILT_DIR}"
 	cp "src/ext/ed25519/ref10/libed25519_ref10.a" "${ARCH_BUILT_DIR}"
-    cp "src/ext/keccak-tiny/libkeccak-tiny.a" "${ARCH_BUILT_DIR}"
+	cp "src/ext/keccak-tiny/libkeccak-tiny.a" "${ARCH_BUILT_DIR}"
 
 	# Copy the micro-revision.i file that defines the Tor version
 	cp "micro-revision.i" "${ARCH_BUILT_HEADERS_DIR}/"
